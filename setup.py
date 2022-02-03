@@ -5,10 +5,10 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="f-passwords-generator",
-    version="0.1.0",
+    version="1.0.0",
     author="FathiAbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
-    url="https://github.com/FathiMalek/f-pass-gen.git",
+    url="https://github.com/FathiMalek/f-passwords-generator.git",
     description="Strong Passwords Generator made with python",
     long_description=long_description,
     long_description_content_type="text/markdown",
