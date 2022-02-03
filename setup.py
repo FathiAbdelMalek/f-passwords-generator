@@ -5,13 +5,14 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="f-passwords-generator",
-    version="1.0.2",
-    author="FathiAbdelMalek",
+    version="1.1.0",
+    author="Fathi AbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
     url="https://github.com/FathiAbdelMalek/f-passwords-generator.git",
     description="Strong Passwords Generator made with python",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    install_requires=['pyperclip'],
     packages=['passwords_generator'],
     python_requires=">=3.6",
     classifiers=[
