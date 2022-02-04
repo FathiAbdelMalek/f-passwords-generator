@@ -4,13 +4,8 @@
 
 ## How to use
 
-`from passwords_generator import FPassGen`\
-`pass_gen = FPassGen(text=None, key=None)`\
-`pass_gen.generate_password(text=None, key=None)`\
-`password = pass_gen.code`\
-or\
-`import passwords_generator`\
-`pass_gen = pass_gen.FPassGen(text=None, key=None)`\
+`from passwords_generator.generator import PassGen`\
+`pass_gen = PassGen(text=None, key=None)`\
 `pass_gen.generate_password(text=None, key=None)`\
 `password = pass_gen.code`
 
@@ -28,18 +23,18 @@ Now you can just open terminal/command-prompt and type pass-gen
 
 ### On python script
 
-generate_password method can accept to optional arguments\
+`generate_password` method can accept two optional arguments\
 `generate_password(text=None, key=None)`\
-text: is the text to be ciphered\
-key: is the key to be used in the generation
+`text`: is the text to be ciphered\
+`key`: is the key to be used in the generation
 key optional in the constructor and the method, but the text must be set in one of them
 
-examples:\
+examples:
 
-- `pass_gen = FPassGen("demo text") pass_gen.generate_password() password = pass_gen.code`\
-- `pass_gen = FPassGen() pass_gen.generate_password("demo text", "demo key") password = pass_gen.code`
-- `pass_gen = FPassGen() pass_gen.generate_password("demo text") password = pass_gen.code`
-- `pass_gen = FPassGen("demo code", "demo key") pass_gen.generate_password() password = pass_gen.code`
+- `pass_gen = PassGen("demo text") pass_gen.generate_password() password = pass_gen.code`\
+- `pass_gen = PassGen() pass_gen.generate_password("demo text", "demo key") password = pass_gen.code`
+- `pass_gen = PassGen() pass_gen.generate_password("demo text") password = pass_gen.code`
+- `pass_gen = PassGen("demo code", "demo key") pass_gen.generate_password() password = pass_gen.code`
 
 `pass_gen.code` is the result of the encryption
 
