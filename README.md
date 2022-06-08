@@ -31,10 +31,10 @@ key optional in the constructor and the method, but the text must be set in one 
 
 examples:
 
-- `pass_gen = PassGen("demo text") pass_gen.generate_password() password = pass_gen.code`\
-- `pass_gen = PassGen() pass_gen.generate_password("demo text", "demo key") password = pass_gen.code`
-- `pass_gen = PassGen() pass_gen.generate_password("demo text") password = pass_gen.code`
-- `pass_gen = PassGen("demo code", "demo key") pass_gen.generate_password() password = pass_gen.code`
+- `pass_gen = PassGen("demo text"); pass_gen.generate_password(); password = pass_gen.code`\
+- `pass_gen = PassGen(); pass_gen.generate_password("demo text", "demo key"); password = pass_gen.code`
+- `pass_gen = PassGen(); pass_gen.generate_password("demo text"); password = pass_gen.code`
+- `pass_gen = PassGen("demo code", "demo key"); pass_gen.generate_password(); password = pass_gen.code`
 
 `pass_gen.code` is the result of the encryption
 
