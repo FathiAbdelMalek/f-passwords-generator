@@ -1,37 +1,29 @@
-class PassGen:
+class PasswordGenerator:
+    def __init__(self, plain_text=None, key_phrase=None):
+        self.plain_text = plain_text
+        self.key_phrase = key_phrase
+        self.password = ""
+        self.matrix = [['' for _ in range(5)] for _ in range(5)]
 
-    def __init__(self, text=None, key=None):
-        self.text = text
-        self.key = key
-        self.code = ""
-        self.matrix = [['' for i in range(5)] for j in range(5)]
+    @staticmethod
+    def __clean_input(input_str):
+        cleaned_str = input_str.lower().replace(' ', '').replace('j', 'i')
+        return ''.join(filter(lambda c: 'a' <= c <= 'z', cleaned_str))
 
     def __prepare_text(self):
-        self.text = self.text.lower()
-        self.text = self.text.replace(' ', '')
-        self.text = self.text.replace('j', 'i')
-        for c in self.text:
-            if ord(c) in range(48, 58) or c == '_':
-                continue
-            elif ord(c) not in range(97, 123):
-                self.text = self.text.replace(c, '')
-        for i in range(1, len(self.text)):
-            if self.text[i] == self.text[i - 1] and not (ord(self.text[i]) in range(48, 58) or self.text[i] == '_'):
-                self.text = self.text[: i] + "x" + self.text[i:]
-        if len(self.text) & 1:
-            self.text += 'x'
+        self.plain_text = self.__clean_input(self.plain_text)
+        for i in range(1, len(self.plain_text)):
+            if self.plain_text[i] == self.plain_text[i - 1] and self.plain_text[i].isalpha():
+                self.plain_text = self.plain_text[:i] + "x" + self.plain_text[i:]
+        if len(self.plain_text) % 2 != 0:
+            self.plain_text += 'x'
 
     def __prepare_key(self):
-        self.key = self.key.lower()
-        self.key = self.key.replace(' ', '')
-        self.key = self.key.replace('j', 'i')
-        for c in self.key:
-            if ord(c) not in range(97, 123):
-                self.key = self.key.replace(c, '')
+        self.key_phrase = self.__clean_input(self.key_phrase)
 
     def __generate_matrix(self):
         stash = []
-        for c in self.key:
+        for c in self.key_phrase:
             if c not in stash:
                 stash.append(c)
         for i in range(97, 123):
@@ -42,38 +34,28 @@ class PassGen:
                     continue
                 stash.append(chr(i))
         index = 0
-        for i in range(0, 5):
-            for j in range(0, 5):
+        for i in range(5):
+            for j in range(5):
                 self.matrix[i][j] = stash[index]
                 index += 1
-        del stash
-        del index
 
     def __index_locator(self, char):
-        char_index = []
-        for i, j in enumerate(self.matrix):
-            for k, l in enumerate(j):
-                if char == l:
-                    char_index.append(i)
-                    char_index.append(k)
-                    return char_index
+        for i, row in enumerate(self.matrix):
+            if char in row:
+                return i, row.index(char)
 
     def __playfair(self):
         result = []
         i = 0
-        while i < len(self.text):
-            if i == len(self.text) - 1 and self.text[i - 1] not in range(97, 123):
-                result.append(self.text[i])
+        while i < len(self.plain_text):
+            if i == len(self.plain_text) - 1 and not self.plain_text[i].isalpha():
+                result.append(self.plain_text[i])
                 break
-            if ord(self.text[i]) in range(48, 58) or self.text[i] == '_':
-                result.append(self.text[i])
+            if not self.plain_text[i].isalpha() or not self.plain_text[i + 1].isalpha():
                 i += 1
                 continue
-            if ord(self.text[i + 1]) in range(48, 58) or self.text[i + 1] == '_':
-                i += 1
-                continue
-            n1 = self.__index_locator(self.text[i])
-            n2 = self.__index_locator(self.text[i + 1])
+            n1 = self.__index_locator(self.plain_text[i])
+            n2 = self.__index_locator(self.plain_text[i + 1])
             if n1[1] == n2[1]:
                 i1 = (n1[0] + 1) % 5
                 j1 = n1[1]
@@ -96,25 +78,21 @@ class PassGen:
                 result.append(self.matrix[i1][j2])
                 result.append(self.matrix[i2][j1])
             i += 2
-        self.code = "".join(str(x) for x in result)
-        del result
-        del i
+        self.password = "".join(result)
 
     def __cipher(self):
-        self.code = self.code.replace('a', '@')
-        self.code = self.code.replace('e', '#')
-        self.code = self.code.replace('i', '$')
-        self.code = self.code.replace('o', '15')
-        self.code = self.code.replace('u', '21')
-        for i in range(len(self.code)):
-            if self.code[i] in self.text:
-                self.code = self.code.replace(self.code[i], self.code[i].upper())
+        char_map = {'a': '@', 'e': '#', 'i': '$', 'o': '15', 'u': '21'}
+        for char, replacement in char_map.items():
+            self.password = self.password.replace(char, replacement)
+        for i in range(len(self.password)):
+            if self.password[i] in self.plain_text:
+                self.password = self.password.replace(self.password[i], self.password[i].upper())
 
     def generate_password(self, text=None, key=None):
         if text:
-            self.text = text
+            self.plain_text = text
         if key:
-            self.key = key
+            self.key_phrase = key
         self.__prepare_text()
         self.__prepare_key()
         self.__generate_matrix()
