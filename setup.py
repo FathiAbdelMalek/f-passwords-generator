@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.2.0",
     author="Fathi AbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
-    url="https://github.com/FathiAbdelMalek/f-passwords-generator.git",
+    url="https://github.com/gathiabdelmalek/f-passwords-generator.git",
     description="Strong Passwords Generator made with python.",
     long_description=long_description,
     long_description_content_type="text/markdown",
