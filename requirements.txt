@@ -1,4 +1,0 @@
-altgraph==0.17.2
-pyinstaller==5.13.2
-pyinstaller-hooks-contrib==2022.4
-pyperclip==1.8.2
