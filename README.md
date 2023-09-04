@@ -8,7 +8,6 @@
 - `key_phrase` (can be modified, have getter and setter): The key phrase to be used in the operation.
 - `characters_replacements` (cannot be modified, have only getter): Custom dictionary you can use to change characters after ciphering, default is empty.
 - `matrix` (cannot be modified, have only getter): The matrix used in the cyphering operation.
-- `password` (cannot be modified, have only getter): The generated password, when first constructed it's empty string.
 
 ## Methods
 
@@ -22,12 +21,11 @@
 from passwords_generator import PasswordGenerator
 
 pass_gen = PasswordGenerator(plain_text=None, key_phrase=None)
-pass_gen.generate_password(text=None, key=None)
 pass_gen.plain_text = "demo text"
 pass_gen.key_phrase = "demo key"
 pass_gen.replace_character(char="", replacement="")
 pass_gen.reset_character(char="")
-password = pass_gen.password
+password = pass_gen.generate_password(text=None, key=None)
 ```
 
 ## Examples
@@ -38,8 +36,7 @@ password = pass_gen.password
 from passwords_generator import PasswordGenerator
 
 pass_gen = PasswordGenerator("demo code", "demo key")
-pass_gen.generate_password()
-password = pass_gen.password
+password = pass_gen.generate_password()
 ```
 
 ### Example 2
@@ -48,8 +45,7 @@ password = pass_gen.password
 from passwords_generator import PasswordGenerator
 
 pass_gen = PasswordGenerator()
-pass_gen.generate_password("demo text", "demo key")
-password = pass_gen.password
+password = pass_gen.generate_password("demo text", "demo key")
 ```
 
 ### Example 3
@@ -60,8 +56,7 @@ from passwords_generator import PasswordGenerator
 pass_gen = PasswordGenerator()
 pass_gen.plain_text = "demo text"
 pass_gen.key_phrase = "demo key"
-pass_gen.generate_password()
-password = pass_gen.password
+password = pass_gen.generate_password()
 ```
 
 ## License

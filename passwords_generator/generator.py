@@ -4,7 +4,6 @@ class PasswordGenerator:
         self._key_phrase = key_phrase
         self._matrix = [['' for _ in range(5)] for _ in range(5)]
         self._char_replacements = {}
-        self._password = ""
         if plain_text:
             self._prepare_text()
         if key_phrase:
@@ -29,10 +28,6 @@ class PasswordGenerator:
         self._key_phrase = key
         self._prepare_key()
         self._generate_matrix()
-
-    @property
-    def password(self):
-        return self._password
 
     @property
     def matrix(self):
@@ -115,14 +110,15 @@ class PasswordGenerator:
                 result.append(self._matrix[i1][j2])
                 result.append(self._matrix[i2][j1])
             i += 2
-        self._password = "".join(result)
+        return "".join(result)
 
-    def _custom_cipher(self):
+    def _custom_cipher(self, password):
         for char, replacement in self._char_replacements.items():
-            self._password = self._password.replace(char, replacement)
-        for i in range(len(self._password)):
-            if self._password[i] in self._plain_text:
-                self._password = self._password.replace(self._password[i], self._password[i].upper())
+            password = password.replace(char, replacement)
+        for i in range(len(password)):
+            if password[i] in self._plain_text:
+                password = password.replace(password[i], password[i].upper())
+        return password
 
     def replace_character(self, char: str, replacement: str):
         self._char_replacements[char] = replacement
@@ -139,5 +135,4 @@ class PasswordGenerator:
             self._key_phrase = key
             self._prepare_key()
             self._generate_matrix()
-        self._playfair()
-        self._custom_cipher()
+        return self._custom_cipher(self._playfair())
