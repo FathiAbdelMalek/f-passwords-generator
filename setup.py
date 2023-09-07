@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="f-passwords-generator",
-    version="1.4.0",
+    version="1.5.0",
     author="Fathi AbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
     url="https://github.com/fathiabdelmalek/f-passwords-generator.git",

@@ -1,31 +1,31 @@
 class PasswordGenerator:
-    def __init__(self, plain_text: str = None, key_phrase: str = None):
-        self._plain_text = plain_text
-        self._key_phrase = key_phrase
+    def __init__(self, _text: str = None, _key: str = None):
+        self._text = _text
+        self._key = _key
         self._matrix = [['' for _ in range(5)] for _ in range(5)]
         self._char_replacements = {}
-        if plain_text:
+        if _text:
             self._prepare_text()
-        if key_phrase:
+        if _key:
             self._prepare_key()
             self._generate_matrix()
 
     @property
-    def plain_text(self):
-        return self._plain_text
+    def text(self):
+        return self._text
 
-    @plain_text.setter
-    def plain_text(self, text: str):
-        self._plain_text = text
+    @text.setter
+    def text(self, text: str):
+        self._text = text
         self._prepare_text()
 
     @property
-    def key_phrase(self):
-        return self._key_phrase
+    def key(self):
+        return self._key
 
-    @key_phrase.setter
-    def key_phrase(self, key: str):
-        self._key_phrase = key
+    @key.setter
+    def key(self, key: str):
+        self._key = key
         self._prepare_key()
         self._generate_matrix()
 
@@ -40,22 +40,22 @@ class PasswordGenerator:
     @staticmethod
     def _clean_input(input_str):
         cleaned_str = input_str.lower().replace(' ', '').replace('j', 'i')
-        return ''.join(filter(lambda c: 'a' <= c <= 'z', cleaned_str))
+        return ''.join(filter(lambda c: 'a' <= c <= 'z' or '0' <= c <= '9', cleaned_str))
 
     def _prepare_text(self):
-        self._plain_text = self._clean_input(self._plain_text)
-        for i in range(1, len(self._plain_text)):
-            if self._plain_text[i] == self._plain_text[i - 1] and self._plain_text[i].isalpha():
-                self._plain_text = self._plain_text[:i] + "x" + self._plain_text[i:]
-        if len(self._plain_text) % 2 != 0:
-            self._plain_text += 'x'
+        self._text = self._clean_input(self._text)
+        for i in range(1, len(self._text)):
+            if self._text[i] == self._text[i - 1] and self._text[i].isalpha():
+                self._text = self._text[:i] + "x" + self._text[i:]
+        if len(self._text) % 2 != 0:
+            self._text += 'x'
 
     def _prepare_key(self):
-        self._key_phrase = self._clean_input(self._key_phrase)
+        self._key = self._clean_input(self._key)
 
     def _generate_matrix(self):
         stash = []
-        for c in self._key_phrase:
+        for c in self._key:
             if c not in stash:
                 stash.append(c)
         for i in range(97, 123):
@@ -79,15 +79,16 @@ class PasswordGenerator:
     def _playfair(self):
         result = []
         i = 0
-        while i < len(self._plain_text):
-            if i == len(self._plain_text) - 1 and not self._plain_text[i].isalpha():
-                result.append(self._plain_text[i])
+        while i < len(self._text) - 1:
+            if i == len(self._text) - 1 and not self._text[i].isalpha():
+                result.append(self._text[i])
                 break
-            if not self._plain_text[i].isalpha() or not self._plain_text[i + 1].isalpha():
+            if not self._text[i].isalpha() or not self._text[i + 1].isalpha():
+                result.append(self._text[i])
                 i += 1
                 continue
-            n1 = self._index_locator(self._plain_text[i])
-            n2 = self._index_locator(self._plain_text[i + 1])
+            n1 = self._index_locator(self._text[i])
+            n2 = self._index_locator(self._text[i + 1])
             if n1[1] == n2[1]:
                 i1 = (n1[0] + 1) % 5
                 j1 = n1[1]
@@ -116,7 +117,7 @@ class PasswordGenerator:
         for char, replacement in self._char_replacements.items():
             password = password.replace(char, replacement)
         for i in range(len(password)):
-            if password[i] in self._plain_text:
+            if password[i] in self._text:
                 password = password.replace(password[i], password[i].upper())
         return password
 
@@ -129,10 +130,10 @@ class PasswordGenerator:
 
     def generate_password(self, text: str = None, key: str = None):
         if text:
-            self._plain_text = text
+            self._text = text
             self._prepare_text()
         if key:
-            self._key_phrase = key
+            self._key = key
             self._prepare_key()
             self._generate_matrix()
         return self._custom_cipher(self._playfair())
