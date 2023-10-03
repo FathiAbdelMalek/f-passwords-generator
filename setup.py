@@ -5,7 +5,8 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="f-passwords-generator",
-    version="1.5.0",
+    version="2.0.0",
+    license="OSI Approved :: MIT License",
     author="Fathi AbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
     url="https://github.com/fathiabdelmalek/f-passwords-generator.git",
@@ -14,10 +15,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     packages=['passwords_generator'],
     python_requires=">=3.6",
+    install_requires=["cipherspy"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    ]
+    ],
 )
