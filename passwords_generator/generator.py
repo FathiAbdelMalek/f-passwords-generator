@@ -7,13 +7,8 @@ class PasswordGenerator:
         self._text = text
         self._key = key
         self._shift = shift
-        match algorithm:
-            case 'playfair':
-                self._algorithm = PlayfairCipher(self._key)
-            case 'caesar':
-                self._algorithm = CaesarCipher(self._shift)
-            case '_':
-                self._algorithm = PlayfairCipher(self._key)
+        self._algorithm_name = algorithm.lower()
+        self._algorithm = self._set_algorithm()
 
     @property
     def text(self) -> str:
@@ -41,21 +36,25 @@ class PasswordGenerator:
 
     @property
     def algorithm(self) -> str:
-        return str(type(self._algorithm))
+        return self._algorithm_name
 
     @algorithm.setter
     def algorithm(self, algorithm: str):
-        match algorithm:
-            case 'playfair':
-                self._algorithm = PlayfairCipher(self._key)
-            case 'caesar':
-                self._algorithm = CaesarCipher(self._shift)
-            case '_':
-                self._algorithm = PlayfairCipher(self._key)
+        self._algorithm_name = algorithm.lower()
+        self._algorithm = self._set_algorithm()
 
     @property
     def character_replacements(self):
         return self._char_replacements
+
+    def _set_algorithm(self):
+        match self._algorithm_name:
+            case 'playfair':
+                return PlayfairCipher(self._key)
+            case 'caesar':
+                return CaesarCipher(self._shift)
+            case '_':
+                return PlayfairCipher(self._key)
 
     def _custom_cipher(self, password):
         for char, replacement in self._char_replacements.items():
@@ -65,6 +64,9 @@ class PasswordGenerator:
                 password = password.replace(password[i], password[i].upper())
         return password
 
+    def _update_algorithm_properties(self):
+        self._algorithm = self._set_algorithm()
+
     def replace_character(self, char: str, replacement: str):
         self._char_replacements[char] = replacement
 
@@ -73,4 +75,5 @@ class PasswordGenerator:
             del self._char_replacements[char]
 
     def generate_password(self):
+        self._update_algorithm_properties()
         return self._custom_cipher(self._algorithm.encrypt(self._text))

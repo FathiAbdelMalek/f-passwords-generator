@@ -5,7 +5,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
     name="f-passwords-generator",
-    version="2.0.0",
+    version="2.0.1",
     license="OSI Approved :: MIT License",
     author="Fathi AbdelMalek",
     author_email="abdelmalek.fathi.2001@gmail.com",
