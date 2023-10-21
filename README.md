@@ -16,6 +16,7 @@
 - `replace_character(char: str, replacement: str)`: used to add an item to `characters_replacements`.
 - `reset_character(char: str)`: remove the character from `characters_replacements` if exists.
 - `generate_password()`: generate a password from the `text` using `key` or `shift` according to the used `algorithm` and `characters_replacements`.
+- `generate_raw_password()`: generate a password from the `text` using `key` or `shift` according to the used `algorithem` without `characters_replacements`.
 
 ## How to use
 

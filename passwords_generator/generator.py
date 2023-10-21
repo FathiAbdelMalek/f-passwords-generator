@@ -77,3 +77,7 @@ class PasswordGenerator:
     def generate_password(self):
         self._update_algorithm_properties()
         return self._custom_cipher(self._algorithm.encrypt(self._text))
+
+    def generate_raw_password(self):
+        self._update_algorithm_properties()
+        return self._algorithm.encrypt(self._text)
